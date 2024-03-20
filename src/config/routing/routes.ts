@@ -21,6 +21,10 @@ export const routes: RouteRecordRaw[] = [
         path: RoutesPaths.UPLOADS,
         component: UploadsPage,
     },
+    {
+        path: '/:pathMatch(.*)*',
+        component: LoginPage,
+    },
 ]
 
 export const router = createRouter({
