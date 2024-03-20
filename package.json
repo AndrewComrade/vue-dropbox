@@ -13,10 +13,12 @@
     "dependencies": {
         "@vueuse/core": "^10.9.0",
         "pinia": "^2.1.7",
+        "reset-css": "^5.0.2",
         "vue": "^3.4.21",
         "vue-router": "^4.3.0"
     },
     "devDependencies": {
+        "@types/node": "^20.11.30",
         "@typescript-eslint/eslint-plugin": "^7.3.1",
         "@typescript-eslint/parser": "^7.3.1",
         "@vitejs/plugin-vue": "^5.0.4",
