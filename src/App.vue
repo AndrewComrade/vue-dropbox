@@ -1,8 +1,15 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import BaseLayout from '@/layout/BaseLayout/BaseLayout.vue'
+import BaseHeader from '@/layout/BaseHeader/BaseHeader.vue'
+</script>
 
 <template>
-    <header>HEADER</header>
-    <main>
-        <RouterView />
-    </main>
+    <BaseLayout>
+        <template #header>
+            <BaseHeader />
+        </template>
+        <template #content>
+            <RouterView />
+        </template>
+    </BaseLayout>
 </template>
