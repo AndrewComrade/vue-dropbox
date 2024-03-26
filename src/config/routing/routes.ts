@@ -44,15 +44,15 @@ export const router = createRouter({
 // Navigation guards
 
 router.beforeEach(async (to) => {
-    const { isUserAutorized } = useUserStore()
+    const { user } = useUserStore()
 
     // Скрываем все роуты, кроме login, если не авторизован
-    if (!isUserAutorized && to.name !== RouterNames.LOGIN) {
+    if (!user.isUserAutorized && to.name !== RouterNames.LOGIN) {
         return { name: RouterNames.LOGIN }
     }
 
     // Скрываем login, если авторизирован
-    if (isUserAutorized && to.name === RouterNames.LOGIN) {
+    if (user.isUserAutorized && to.name === RouterNames.LOGIN) {
         return { name: RouterNames.UPLOADS }
     }
 })

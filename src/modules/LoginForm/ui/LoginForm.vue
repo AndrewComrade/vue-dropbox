@@ -22,21 +22,21 @@
                 type="text"
             />
         </fieldset>
-        <BlueButton class="h-[4.25rem] w-[11rem] text-[1.5rem]" type="submit">
+        <BaseButton class="h-[4.25rem] w-[11rem] text-[1.5rem]" type="submit">
             Войти
-        </BlueButton>
+        </BaseButton>
     </form>
 </template>
 
 <script setup lang="ts">
 import LoginFormInput from '@/modules/LoginForm/ui/LoginFormInput.vue'
-import BlueButton from '@/components/BlueButton/BlueButton.vue'
 import { useField, useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import { z } from 'zod'
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '@/store/user.ts'
 import { watch } from 'vue'
+import BaseButton from '@/components/BaseButton/BaseButton.vue'
 
 const userStore = useUserStore()
 const { loginError, passwordError } = storeToRefs(userStore)

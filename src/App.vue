@@ -9,7 +9,9 @@ import BaseHeader from '@/layout/BaseHeader/BaseHeader.vue'
             <BaseHeader />
         </template>
         <template #content>
-            <RouterView />
+            <Suspense>
+                <RouterView />
+            </Suspense>
         </template>
     </BaseLayout>
 </template>
