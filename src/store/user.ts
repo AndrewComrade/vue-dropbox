@@ -11,6 +11,7 @@ interface UserState {
     token: string
     loginErrors: string[]
     passwordErrors: string[]
+    isUserAutorized: boolean
 }
 
 interface ErrorsResponse {
@@ -21,20 +22,17 @@ interface ErrorsResponse {
 export const useUserStore = defineStore('user', () => {
     const router = useRouter()
 
-    const isUserAutorized = computed(
-        () => !!user.token || !!localStorage.getItem('token')
-    )
-
-    const loginError = computed(() => user.loginErrors)
-    const passwordError = computed(() => user.passwordErrors)
-
     const user: UserState = reactive({
         login: '',
         password: '',
         token: '',
         loginErrors: [],
         passwordErrors: [],
+        isUserAutorized: !!localStorage.getItem('token'),
     })
+
+    const loginError = computed(() => user.loginErrors)
+    const passwordError = computed(() => user.passwordErrors)
 
     const loginUser = async ({
         login,
@@ -54,6 +52,7 @@ export const useUserStore = defineStore('user', () => {
             user.login = login
             user.password = password
             user.token = token
+            user.isUserAutorized = true
 
             await router.push({ path: RouterPaths.UPLOADS })
         } catch (error) {
@@ -70,6 +69,7 @@ export const useUserStore = defineStore('user', () => {
         user.login = ''
         user.password = ''
         user.token = ''
+        user.isUserAutorized = false
 
         localStorage.removeItem('token')
         await router.push({ name: RouterNames.LOGIN })
@@ -77,7 +77,6 @@ export const useUserStore = defineStore('user', () => {
 
     return {
         user,
-        isUserAutorized,
         loginError,
         passwordError,
         loginUser,
