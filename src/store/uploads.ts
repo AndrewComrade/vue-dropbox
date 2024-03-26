@@ -68,7 +68,11 @@ export const useUploadsStore = defineStore('uploads', () => {
         downoaldFile({ data, filename })
     }
 
-    const downloadSelectedFiles = async () => {}
+    const downloadSelectedFiles = async () => {
+        for (const file of selectedFiles.value) {
+            await downloadSingleFile(file.name)
+        }
+    }
 
     const uploadSingleFile = async (file: File) => {
         await uploadsApi.uploadSingleFile(file)

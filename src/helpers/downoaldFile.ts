@@ -3,7 +3,7 @@ export const downoaldFile = ({
     filename,
 }: {
     data: Blob
-    name: string
+    filename: string
 }) => {
     const href = URL.createObjectURL(data)
 
