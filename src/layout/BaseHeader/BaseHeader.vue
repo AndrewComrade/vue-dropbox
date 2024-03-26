@@ -2,14 +2,16 @@
     <BaseContainer>
         <template #default>
             <div
-                :class="isUserAutorized ? 'justify-between' : 'justify-center'"
+                :class="
+                    user.isUserAutorized ? 'justify-between' : 'justify-center'
+                "
                 class="text-green-500 flex items-center py-5"
             >
                 <RouterLink to="/login">
                     <SiteLogo />
                 </RouterLink>
                 <div
-                    v-if="isUserAutorized"
+                    v-if="user.isUserAutorized"
                     class="flex cursor-pointer items-center gap-2"
                     @click="logoutUser"
                 >
@@ -29,7 +31,7 @@ import { storeToRefs } from 'pinia'
 import LogoutIcon from '@/components/assets/LogoutIcon.vue'
 
 const userStore = useUserStore()
-const { isUserAutorized } = storeToRefs(userStore)
+const { user } = storeToRefs(userStore)
 const { logoutUser } = userStore
 </script>
 
