@@ -6,7 +6,7 @@
     >
         <BaseCheckbox
             :checked="selected"
-            class="absolute -left-[1rem] top-1/2 -translate-y-1/2"
+            class="absolute -left-[3rem] top-1/2 -translate-y-1/2"
             @change="toggleSelected"
         />
         <UploadsListItemActions

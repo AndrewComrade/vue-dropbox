@@ -7,7 +7,7 @@
             >
                 <div
                     :class="classObject"
-                    class="bg-secondaryBlack flex min-w-[400px] items-center justify-center gap-3 rounded-[2px] border-b-[5px] border-blue px-5 py-4 text-center text-[1.5rem] text-white"
+                    class="flex min-w-[400px] items-center justify-center gap-3 rounded-[2px] border-b-[5px] px-5 py-4 text-center text-[1.5rem]"
                 >
                     <span> {{ message }}</span>
                     <div v-if="variant === 'success'">
@@ -30,6 +30,7 @@ const { isOpen, variant, message } = storeToRefs(store)
 
 const classObject = computed(() => ({
     'bg-redLight text-red border-red': variant.value === 'error',
+    'bg-secondaryBlack text-white border-blue ': variant.value !== 'error',
 }))
 </script>
 

@@ -14,7 +14,7 @@
         <BaseCheckbox
             v-show="selectedFiles.length > 0"
             :checked="isSelected"
-            class="absolute -left-[1rem] top-1/2 -translate-y-1/2"
+            class="absolute -left-[3rem] top-1/2 -translate-y-1/2"
             @change="handleSelectedAll"
         />
     </div>
