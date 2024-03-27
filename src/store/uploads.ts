@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { uploadsApi } from '@/config/api/uploadsApi.ts'
 import { downoaldFile } from '@/helpers/downoaldFile.ts'
+import { useNotificationStore } from '@/store/notification.ts'
 
 export interface Upload {
     id: number
@@ -13,6 +14,8 @@ export interface Upload {
 }
 
 export const useUploadsStore = defineStore('uploads', () => {
+    const { showHotification } = useNotificationStore()
+
     const files = ref<Upload[]>([])
 
     const selectedFiles = computed(() =>
@@ -40,16 +43,44 @@ export const useUploadsStore = defineStore('uploads', () => {
         files.value = data.map((item) => ({ ...item, selected: false }))
     }
 
-    const deleteSingleFile = async (filename: string) => {
-        await uploadsApi.deleteSingleFile(filename)
-        await fetchAllFiles()
+    const deleteSingleFile = async (
+        filename: string,
+        showNotification: boolean = true
+    ) => {
+        try {
+            await uploadsApi.deleteSingleFile(filename)
+            await fetchAllFiles()
+
+            if (showNotification) {
+                showHotification({
+                    message: `Файл ${filename} успешно удалён`,
+                    variant: 'success',
+                })
+            }
+        } catch {
+            showHotification({
+                message: `Не удалось удалить ${filename}`,
+                variant: 'error',
+            })
+        }
     }
 
     const deleteSelectedFiles = async () => {
-        for (const file of selectedFiles.value) {
-            await deleteSingleFile(file.name)
+        try {
+            for (const file of selectedFiles.value) {
+                await deleteSingleFile(file.name, false)
+            }
+            await fetchAllFiles()
+            showHotification({
+                message: 'Файлы успешно удалёны',
+                variant: 'success',
+            })
+        } catch {
+            showHotification({
+                message: 'Не удалось удалить файлы',
+                variant: 'error',
+            })
         }
-        await fetchAllFiles()
     }
 
     const editSingleFile = async ({
@@ -59,23 +90,72 @@ export const useUploadsStore = defineStore('uploads', () => {
         filename: string
         name: string
     }) => {
-        await uploadsApi.editSingleFile({ filename, name })
-        await fetchAllFiles()
+        try {
+            await uploadsApi.editSingleFile({ filename, name })
+            await fetchAllFiles()
+            showHotification({
+                message: `Файл ${filename} успешно переименован`,
+                variant: 'success',
+            })
+        } catch {
+            showHotification({
+                message: `Файл ${filename} не удалось переименовать`,
+                variant: 'error',
+            })
+        }
     }
 
-    const downloadSingleFile = async (filename: string) => {
-        const { data } = await uploadsApi.downloadSingleFile(filename)
-        downoaldFile({ data, filename })
+    const downloadSingleFile = async (
+        filename: string,
+        showNotification: boolean = true
+    ) => {
+        try {
+            const { data } = await uploadsApi.downloadSingleFile(filename)
+            downoaldFile({ data, filename })
+            if (showNotification) {
+                showHotification({
+                    message: `Файл ${filename} успешно скачан`,
+                    variant: 'success',
+                })
+            }
+        } catch {
+            showHotification({
+                message: `Файл ${filename} не удалось скачать`,
+                variant: 'error',
+            })
+        }
     }
 
     const downloadSelectedFiles = async () => {
-        for (const file of selectedFiles.value) {
-            await downloadSingleFile(file.name)
+        try {
+            for (const file of selectedFiles.value) {
+                await downloadSingleFile(file.name, false)
+            }
+            showHotification({
+                message: 'Файлы успешно скачаны',
+                variant: 'success',
+            })
+        } catch {
+            showHotification({
+                message: 'Файлы не удалось скачать',
+                variant: 'error',
+            })
         }
     }
 
     const uploadSingleFile = async (file: File) => {
-        await uploadsApi.uploadSingleFile(file)
+        try {
+            await uploadsApi.uploadSingleFile(file)
+            showHotification({
+                message: 'Файлы успешно загружены',
+                variant: 'success',
+            })
+        } catch {
+            showHotification({
+                message: 'Файлы не удалось загрузить',
+                variant: 'error',
+            })
+        }
     }
 
     return {

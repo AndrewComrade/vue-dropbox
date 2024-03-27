@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BaseLayout from '@/layout/BaseLayout/BaseLayout.vue'
 import BaseHeader from '@/layout/BaseHeader/BaseHeader.vue'
+import BaseNotification from '@/components/BaseNotification/BaseNotification.vue'
 </script>
 
 <template>
@@ -14,4 +15,5 @@ import BaseHeader from '@/layout/BaseHeader/BaseHeader.vue'
             </Suspense>
         </template>
     </BaseLayout>
+    <BaseNotification />
 </template>
