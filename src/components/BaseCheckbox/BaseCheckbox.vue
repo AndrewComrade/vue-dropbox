@@ -1,7 +1,7 @@
 <template>
     <div class="inline-flex items-center">
         <label
-            class="relative flex cursor-pointer items-center rounded-full p-3"
+            class="relative flex cursor-pointer items-center"
             htmlFor="custom"
         >
             <input

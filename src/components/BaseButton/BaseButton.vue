@@ -21,14 +21,12 @@ const props = withDefaults(defineProps<Props>(), {
     variant: 'blue',
 })
 
-const buttonClasses = computed(() => {
-    switch (props.variant) {
-        case 'blue':
-            return 'bg-blue text-white'
-        case 'blueLight':
-            return 'bg-blueLight text-blue'
-    }
-})
+const buttonClasses = computed(() => ({
+    'bg-blue text-white hover:bg-blueLight hover:text-blue':
+        props.variant === 'blue',
+    'bg-blueLight text-blue hover:bg-blue hover:text-white':
+        props.variant === 'blueLight',
+}))
 </script>
 
 <style scoped></style>

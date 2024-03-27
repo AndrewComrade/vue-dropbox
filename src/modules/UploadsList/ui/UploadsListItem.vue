@@ -1,7 +1,7 @@
 <template>
     <div
-        :class="selected && 'bg-blueLight'"
-        class="relative grid grid-cols-4 gap-x-[3.75rem] border-b border-b-grayLight p-[1.25rem] text-[1.5rem]"
+        :class="classObject"
+        class="relative grid cursor-pointer grid-cols-4 gap-x-[3.75rem] border-b border-b-grayLight p-[1.25rem] text-[1.5rem]"
         @click.stop="toggleSelected"
     >
         <BaseCheckbox
@@ -64,6 +64,11 @@ const {
     downloadSingleFile,
     toggleSelectedById,
 } = useUploadsStore()
+
+const classObject = computed(() => ({
+    'bg-blueLight': props.selected,
+    'hover:bg-grayLight': !props.selected,
+}))
 
 const formatedFileSize = computed(() => humanFileSize(props.size))
 const filename = computed(() => props.name.split('.').shift())
