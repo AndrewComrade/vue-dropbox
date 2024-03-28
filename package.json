@@ -12,11 +12,13 @@
     },
     "dependencies": {
         "@vee-validate/zod": "^4.12.6",
+        "@vitejs/plugin-vue-jsx": "^3.1.0",
         "@vueuse/core": "^10.9.0",
         "axios": "^1.6.8",
         "date-fns": "^3.6.0",
         "normalize.css": "^8.0.1",
         "pinia": "^2.1.7",
+        "tailwind": "^4.0.0",
         "vee-validate": "^4.12.6",
         "vite-svg-loader": "^5.1.0",
         "vue": "^3.4.21",

@@ -1,7 +1,7 @@
 <template>
     <div
         :class="classObject"
-        class="relative grid cursor-pointer grid-cols-4 gap-x-[3.75rem] border-b border-b-grayLight p-[1.25rem] text-[1.5rem]"
+        class="relative grid cursor-pointer grid-cols-4 gap-x-[3.75rem] border-b border-b-grayLight p-[1.25rem] text-[1.5rem] transition-all"
         @click.stop="toggleSelected"
     >
         <base-checkbox
@@ -17,16 +17,16 @@
             @download="handleDownload"
             @edit="handleEdit"
         />
-        <div class="col-span-2 flex items-center">
-            <file-extension-icon
-                :extension="fileExtension"
-                class="mr-2 shrink-0"
+        <div class="col-span-2 flex items-center gap-2">
+            <base-icon
+                :icon="fileExtension"
+                class="w-8 h-8"
             />
             <span
                 :title="`${filename}.${fileExtension}`"
                 class="truncate"
             >{{ filename }}</span>
-            <span v-if="fileExtension">.{{ fileExtension }}</span>
+            <span v-show="fileExtension">.{{ fileExtension }}</span>
         </div>
         <div class="flex items-center">
             {{ formatedEditedAt }}
@@ -39,12 +39,15 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { humanFileSize } from '@/helpers/humanFileSize.ts'
 import { format } from 'date-fns'
+
+import { humanFileSize } from '@/helpers/humanFileSize.ts'
 import { getExtension } from '@/helpers/getExtension.ts'
-import FileExtensionIcon from '@/resources/common/ui/FileExtensionIcon.vue'
+
 import BaseCheckbox from '@/resources/common/ui/BaseCheckbox.vue'
-import UploadsListItemActions from '@/resources/pages/UploadsPage/UploadsList/components/UploadsListItemActions.vue'
+import UploadsListItemActions from '@/resources/pages/UploadsPage/UploadsList/components/UploadsListItem/components/UploadsListItemActions.vue'
+import BaseIcon from '@/resources/common/ui/BaseIcon.vue'
+
 import { useUploadsStore } from '@/store/uploads.ts'
 
 interface Props {

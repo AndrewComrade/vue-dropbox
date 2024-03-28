@@ -1,6 +1,6 @@
 <template>
     <div
-        class="e-icon"
+        class="icon"
         v-html="svg"
     />
 </template>
@@ -15,7 +15,7 @@ const props = defineProps<{
 const svg = ref('');
 
 watch(() => props.icon, (icon: string) => {
-    import(`@icons/${icon}.svg?raw`).then((module) => {
+    import(`../../../assets/icons/${icon}.svg?raw`).then((module) => {
         if (icon === props.icon) {
             svg.value = module.default;
         }
@@ -25,3 +25,17 @@ watch(() => props.icon, (icon: string) => {
 })
 </script>
 
+
+<style scoped>
+.icon {
+  @apply inline-flex;
+
+  :deep svg {
+    @apply w-full h-full;
+
+    * {
+      @apply fill-current;
+    }
+  }
+}
+</style>

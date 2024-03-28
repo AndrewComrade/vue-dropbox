@@ -2,7 +2,7 @@
     <button
         :class="buttonClasses"
         :type="props.type"
-        class="flex items-center justify-center rounded-7 px-[1rem] py-[0.75rem] font-medium"
+        class="flex items-center justify-center rounded-7 px-[1rem] py-[0.75rem] font-medium transition-all"
     >
         <slot />
     </button>

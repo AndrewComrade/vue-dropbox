@@ -6,16 +6,16 @@
             v-for="(heading, index) in sortOptions"
             :key="heading.key"
             :class="index === 0 && 'col-span-2'"
-            class="group flex cursor-pointer items-center gap-2 hover:text-blue"
+            class="flex cursor-pointer select-none items-center gap-2 hover:text-blue"
             @click.stop="setSortKey(heading.key)"
         >
             <span>{{ heading.label }}</span>
-            <img
+            <base-icon
                 v-show="heading.key === sortKey"
                 :class="heading.key === sortKey && sortOrder === 'desc' && 'rotate-180'"
-                :src="arrowIcon"
-                alt=""
-            >
+                class="w-6 h-6 font-bold"
+                icon="arrow"
+            />
         </div>
         <base-checkbox
             v-show="selectedFiles.length > 0"
@@ -36,7 +36,7 @@
         </base-button>
         <base-button
             variant="blueLight"
-            @click.stop="deleteSelectedFiles"
+            @click.stop="handleDeleteAll"
         >
             {{ deleteBtnText }}
         </base-button>
@@ -45,11 +45,13 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import arrowIcon from '@/assets/icons/arrow.svg'
+import { storeToRefs } from 'pinia'
+
 import BaseCheckbox from '@/resources/common/ui/BaseCheckbox.vue'
 import BaseButton from '@/resources/common/ui/BaseButton.vue'
+import BaseIcon from '@/resources/common/ui/BaseIcon.vue';
+
 import { useUploadsStore } from '@/store/uploads.ts'
-import { storeToRefs } from 'pinia'
 import { useSortStore } from '@/store/sort.ts';
 
 const uploadsStore = useUploadsStore()
@@ -79,6 +81,11 @@ const deleteBtnText = computed(() =>
 const handleSelectedAll = () => {
     isSelected.value = !isSelected.value
     toggleSelectedAll(isSelected.value)
+}
+
+const handleDeleteAll = () => {
+    const isConfirmed = confirm(`Вы точно хотите удалить ${selectedFiles.value.length} файла(-ов)?`)
+    if (isConfirmed) deleteSelectedFiles()
 }
 
 watch(isAllFilesSelected, (value) => {

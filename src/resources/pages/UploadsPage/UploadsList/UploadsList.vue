@@ -19,9 +19,10 @@
 </template>
 
 <script setup lang="ts">
-import UploadsListItem from '@/resources/pages/UploadsPage/UploadsList/components/UploadsListItem.vue'
+import UploadsListItem from '@/resources/pages/UploadsPage/UploadsList/components/UploadsListItem/UploadsListItem.vue'
 import UploadsListActions from '@/resources/pages/UploadsPage/UploadsList/components/UploadsListActions.vue'
-import { Upload } from '@/store/uploads.ts'
+
+import { type Upload } from '@/store/uploads.ts'
 
 interface Props {
     uploads: Upload[]

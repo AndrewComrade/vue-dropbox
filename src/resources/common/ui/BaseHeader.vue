@@ -5,17 +5,23 @@
                 :class="
                     user.isUserAutorized ? 'justify-between' : 'justify-center'
                 "
-                class="text-green-500 flex items-center py-5"
+                class="flex items-center py-5"
             >
-                <router-link to="/login">
-                    <site-logo />
+                <router-link
+                    class="flex items-center"
+                    to="/login"
+                >
+                    <base-logo class="text-grayDark" />
                 </router-link>
                 <div
                     v-if="user.isUserAutorized"
-                    class="flex cursor-pointer items-center gap-2"
+                    class="flex cursor-pointer items-center gap-2 hover:text-blue transition-all"
                     @click="logoutUser"
                 >
-                    <logout-icon class="stroke-blue" />
+                    <base-icon
+                        class="w-5 h-5"
+                        icon="logout"
+                    />
                     <span>Выйти</span>
                 </div>
             </div>
@@ -24,12 +30,13 @@
 </template>
 
 <script setup lang="ts">
-import BaseContainer from '@/resources/common/ui/BaseContainer.vue'
-import SiteLogo from '@/components/assComp/SiteLogo.vue'
-import { useUserStore } from '@/store/user.ts'
 import { storeToRefs } from 'pinia'
 
-import LogoutIcon from '@icons/logout.svg'
+import BaseContainer from '@/resources/common/ui/BaseContainer.vue'
+import BaseIcon from '@/resources/common/ui/BaseIcon.vue';
+import BaseLogo from '@/resources/common/ui/BaseLogo.vue';
+
+import { useUserStore } from '@/store/user.ts'
 
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)

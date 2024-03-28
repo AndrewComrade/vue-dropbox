@@ -27,12 +27,14 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+
 import BaseContainer from '@/resources/common/ui/BaseContainer.vue'
 import UploadsList from '@/resources/pages/UploadsPage/UploadsList/UploadsList.vue'
 import BaseButton from '@/resources/common/ui/BaseButton.vue'
-import { onMounted, ref } from 'vue'
+
 import { useUploadsStore } from '@/store/uploads.ts'
-import { storeToRefs } from 'pinia'
 
 const store = useUploadsStore()
 const { files } = storeToRefs(store)

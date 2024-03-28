@@ -32,14 +32,16 @@
 </template>
 
 <script setup lang="ts">
+import { watch } from 'vue'
+import { useField, useForm } from 'vee-validate'
+import { z } from 'zod'
+import { toTypedSchema } from '@vee-validate/zod'
+import { storeToRefs } from 'pinia'
+
 import LoginFormInput from '@/resources/pages/LoginPage/LoginForm/components/LoginFormInput.vue'
 import BaseButton from '@/resources/common/ui/BaseButton.vue'
-import { useField, useForm } from 'vee-validate'
-import { toTypedSchema } from '@vee-validate/zod'
-import { z } from 'zod'
-import { storeToRefs } from 'pinia'
+
 import { useUserStore } from '@/store/user.ts'
-import { watch } from 'vue'
 
 const userStore = useUserStore()
 const { loginError, passwordError } = storeToRefs(userStore)
