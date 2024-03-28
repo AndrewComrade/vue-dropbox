@@ -17,10 +17,10 @@
             @download="handleDownload"
             @edit="handleEdit"
         />
-        <div class="col-span-2 flex items-center gap-2">
-            <base-icon
-                :icon="fileExtension"
-                class="w-8 h-8"
+        <div class="col-span-2 flex items-center">
+            <extension-icon
+                :extension="fileExtension"
+                class="mr-2"
             />
             <span
                 :title="`${filename}.${fileExtension}`"
@@ -49,6 +49,8 @@ import UploadsListItemActions from '@/resources/pages/UploadsPage/UploadsList/co
 import BaseIcon from '@/resources/common/ui/BaseIcon.vue'
 
 import { useUploadsStore } from '@/store/uploads.ts'
+import ExtensionIcon
+    from '@/resources/pages/UploadsPage/UploadsList/components/UploadsListItem/components/ExtensionIcon.vue';
 
 interface Props {
     id: number
