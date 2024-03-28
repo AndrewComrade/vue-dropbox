@@ -1,5 +1,5 @@
 <template>
-    <BaseContainer class="min-h-full justify-center">
+    <base-container class="min-h-full justify-center">
         <div class="mx-auto text-center">
             <h1 class="text-[4rem] font-bold mb-[3.5rem] leading-[1.12]">
                 Облачное хранилище
@@ -11,13 +11,13 @@
                 хранилище
             </p>
         </div>
-        <LoginForm />
-    </BaseContainer>
+        <login-form />
+    </base-container>
 </template>
 
 <script setup lang="ts">
-import BaseContainer from '@/layout/BaseContainer/BaseContainer.vue'
-import LoginForm from '@/modules/LoginForm/ui/LoginForm.vue'
+import BaseContainer from '@/resources/common/ui/BaseContainer.vue'
+import LoginForm from '@/resources/pages/LoginPage/LoginForm/LoginForm.vue'
 </script>
 
 <style scoped></style>

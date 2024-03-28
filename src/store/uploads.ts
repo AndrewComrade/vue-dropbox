@@ -1,8 +1,11 @@
-import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { defineStore, storeToRefs } from 'pinia'
+import { computed, ref, watchEffect } from 'vue'
 import { uploadsApi } from '@/config/api/uploadsApi.ts'
 import { downoaldFile } from '@/helpers/downoaldFile.ts'
 import { useNotificationStore } from '@/store/notification.ts'
+import { sortByKey } from '@/helpers/sortByKey.ts';
+import { useSortStore } from '@/store/sort.ts';
+import { AxiosResponse } from 'axios';
 
 export interface Upload {
     id: number
@@ -14,6 +17,9 @@ export interface Upload {
 }
 
 export const useUploadsStore = defineStore('uploads', () => {
+    const sortStore = useSortStore()
+    const { sortKey, sortOrder } = storeToRefs(sortStore)
+
     const { showHotification } = useNotificationStore()
 
     const files = ref<Upload[]>([])
@@ -27,11 +33,11 @@ export const useUploadsStore = defineStore('uploads', () => {
     )
 
     const toggleSelectedById = (id: number) => {
-        files.value.map((file) => {
-            if (file.id === id) {
-                file.selected = !file.selected
-            }
-        })
+        const selectedFile = files.value.find(file => file.id === id)
+
+        if (!selectedFile) return
+
+        selectedFile.selected = !selectedFile.selected
     }
 
     const toggleSelectedAll = (isSelected: boolean) => {
@@ -45,18 +51,16 @@ export const useUploadsStore = defineStore('uploads', () => {
 
     const deleteSingleFile = async (
         filename: string,
-        showNotification: boolean = true
     ) => {
         try {
             await uploadsApi.deleteSingleFile(filename)
             await fetchAllFiles()
 
-            if (showNotification) {
-                showHotification({
-                    message: `Файл ${filename} успешно удалён`,
-                    variant: 'success',
-                })
-            }
+            showHotification({
+                message: `Файл ${filename} успешно удалён`,
+                variant: 'success',
+            })
+
         } catch {
             showHotification({
                 message: `Не удалось удалить ${filename}`,
@@ -66,10 +70,14 @@ export const useUploadsStore = defineStore('uploads', () => {
     }
 
     const deleteSelectedFiles = async () => {
+        const requests: Promise<AxiosResponse>[] = []
+
+        for await (const file of selectedFiles.value) {
+            requests.push(uploadsApi.deleteSingleFile(file.name))
+        }
+
         try {
-            for (const file of selectedFiles.value) {
-                await deleteSingleFile(file.name, false)
-            }
+            await Promise.all(requests)
             await fetchAllFiles()
             showHotification({
                 message: 'Файлы успешно удалёны',
@@ -107,17 +115,14 @@ export const useUploadsStore = defineStore('uploads', () => {
 
     const downloadSingleFile = async (
         filename: string,
-        showNotification: boolean = true
     ) => {
         try {
             const { data } = await uploadsApi.downloadSingleFile(filename)
             downoaldFile({ data, filename })
-            if (showNotification) {
-                showHotification({
-                    message: `Файл ${filename} успешно скачан`,
-                    variant: 'success',
-                })
-            }
+            showHotification({
+                message: `Файл ${filename} успешно скачан`,
+                variant: 'success',
+            })
         } catch {
             showHotification({
                 message: `Файл ${filename} не удалось скачать`,
@@ -127,10 +132,20 @@ export const useUploadsStore = defineStore('uploads', () => {
     }
 
     const downloadSelectedFiles = async () => {
+        const requests: Promise<AxiosResponse<Blob>>[] = []
+
+        for (const file of selectedFiles.value) {
+            requests.push(uploadsApi.downloadSingleFile(file.name))
+        }
+
         try {
-            for (const file of selectedFiles.value) {
-                await downloadSingleFile(file.name, false)
+            const values = await Promise.all(requests)
+
+            for (const { data, config } of values) {
+                // config.params.filename - костыль для получения имени скачиваемого файла
+                downoaldFile({ data, filename: config.params.filename })
             }
+
             showHotification({
                 message: 'Файлы успешно скачаны',
                 variant: 'success',
@@ -143,9 +158,16 @@ export const useUploadsStore = defineStore('uploads', () => {
         }
     }
 
-    const uploadSingleFile = async (file: File) => {
+    const uploadFiles = async (files: FileList) => {
+        const requests: Promise<AxiosResponse>[] = []
+
+        for (const file of files) {
+            requests.push(uploadsApi.uploadSingleFile(file))
+        }
+
         try {
-            await uploadsApi.uploadSingleFile(file)
+            await Promise.all(requests)
+            await fetchAllFiles()
             showHotification({
                 message: 'Файлы успешно загружены',
                 variant: 'success',
@@ -158,6 +180,10 @@ export const useUploadsStore = defineStore('uploads', () => {
         }
     }
 
+    watchEffect(() => {
+        sortByKey(files.value, sortKey.value, sortOrder.value)
+    })
+
     return {
         files,
         selectedFiles,
@@ -167,7 +193,7 @@ export const useUploadsStore = defineStore('uploads', () => {
         deleteSelectedFiles,
         downloadSingleFile,
         downloadSelectedFiles,
-        uploadSingleFile,
+        uploadFiles,
         editSingleFile,
         toggleSelectedById,
         toggleSelectedAll,

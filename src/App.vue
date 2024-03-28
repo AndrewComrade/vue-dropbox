@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import BaseLayout from '@/layout/BaseLayout/BaseLayout.vue'
-import BaseHeader from '@/layout/BaseHeader/BaseHeader.vue'
-import BaseNotification from '@/components/BaseNotification/BaseNotification.vue'
+import BaseLayout from '@/resources/common/ui/BaseLayout.vue'
+import BaseHeader from '@/resources/common/ui/BaseHeader.vue'
+import BaseNotification from '@/resources/common/ui/BaseNotification.vue'
 </script>
 
 <template>
-    <BaseLayout>
+    <base-layout>
         <template #header>
-            <BaseHeader />
+            <base-header />
         </template>
         <template #content>
-            <Suspense>
-                <RouterView />
-            </Suspense>
+            <suspense>
+                <router-view />
+            </suspense>
         </template>
-    </BaseLayout>
-    <BaseNotification />
+    </base-layout>
+    <base-notification />
 </template>

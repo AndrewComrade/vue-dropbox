@@ -1,5 +1,5 @@
 <template>
-    <BaseContainer>
+    <base-container>
         <template #default>
             <div
                 :class="
@@ -7,28 +7,29 @@
                 "
                 class="text-green-500 flex items-center py-5"
             >
-                <RouterLink to="/login">
-                    <SiteLogo />
-                </RouterLink>
+                <router-link to="/login">
+                    <site-logo />
+                </router-link>
                 <div
                     v-if="user.isUserAutorized"
                     class="flex cursor-pointer items-center gap-2"
                     @click="logoutUser"
                 >
-                    <LogoutIcon class="h-[20px] w-[20px]" />
+                    <logout-icon class="stroke-blue" />
                     <span>Выйти</span>
                 </div>
             </div>
         </template>
-    </BaseContainer>
+    </base-container>
 </template>
 
 <script setup lang="ts">
-import BaseContainer from '@/layout/BaseContainer/BaseContainer.vue'
-import SiteLogo from '@/components/assets/SiteLogo.vue'
+import BaseContainer from '@/resources/common/ui/BaseContainer.vue'
+import SiteLogo from '@/components/assComp/SiteLogo.vue'
 import { useUserStore } from '@/store/user.ts'
 import { storeToRefs } from 'pinia'
-import LogoutIcon from '@/components/assets/LogoutIcon.vue'
+
+import LogoutIcon from '@icons/logout.svg'
 
 const userStore = useUserStore()
 const { user } = storeToRefs(userStore)

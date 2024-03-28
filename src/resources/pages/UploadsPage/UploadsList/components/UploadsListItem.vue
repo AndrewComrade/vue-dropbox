@@ -4,12 +4,12 @@
         class="relative grid cursor-pointer grid-cols-4 gap-x-[3.75rem] border-b border-b-grayLight p-[1.25rem] text-[1.5rem]"
         @click.stop="toggleSelected"
     >
-        <BaseCheckbox
+        <base-checkbox
             :checked="selected"
             class="absolute -left-[3rem] top-1/2 -translate-y-1/2"
             @change="toggleSelected"
         />
-        <UploadsListItemActions
+        <uploads-list-item-actions
             v-show="selected"
             :filename="name"
             class="absolute right-[1rem] top-1/2 -translate-y-1/2"
@@ -18,11 +18,14 @@
             @edit="handleEdit"
         />
         <div class="col-span-2 flex items-center">
-            <FileExtensionIcon
+            <file-extension-icon
                 :extension="fileExtension"
                 class="mr-2 shrink-0"
             />
-            <span class="truncate">{{ filename }}</span>
+            <span
+                :title="`${filename}.${fileExtension}`"
+                class="truncate"
+            >{{ filename }}</span>
             <span v-if="fileExtension">.{{ fileExtension }}</span>
         </div>
         <div class="flex items-center">
@@ -39,11 +42,10 @@ import { computed } from 'vue'
 import { humanFileSize } from '@/helpers/humanFileSize.ts'
 import { format } from 'date-fns'
 import { getExtension } from '@/helpers/getExtension.ts'
-import FileExtensionIcon from '@/components/FileExtensionIcon/FileExtensionIcon.vue'
-import BaseCheckbox from '@/components/BaseCheckbox/BaseCheckbox.vue'
-import UploadsListItemActions from '@/modules/UploadsList/ui/UploadsListItemActions.vue'
+import FileExtensionIcon from '@/resources/common/ui/FileExtensionIcon.vue'
+import BaseCheckbox from '@/resources/common/ui/BaseCheckbox.vue'
+import UploadsListItemActions from '@/resources/pages/UploadsPage/UploadsList/components/UploadsListItemActions.vue'
 import { useUploadsStore } from '@/store/uploads.ts'
-import { storeToRefs } from 'pinia'
 
 interface Props {
     id: number
@@ -56,8 +58,6 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const store = useUploadsStore()
-const { selectedFiles } = storeToRefs(store)
 const {
     deleteSingleFile,
     editSingleFile,
@@ -79,7 +79,6 @@ const formatedEditedAt = computed(() =>
 
 const toggleSelected = () => {
     toggleSelectedById(props.id)
-    console.log(selectedFiles.value)
 }
 
 const handleDownload = () => {

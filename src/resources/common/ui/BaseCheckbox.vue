@@ -11,7 +11,7 @@
                 class="peer relative h-[30px] w-[30px] cursor-pointer appearance-none rounded-[5px] border-[3px] border-gray transition-all checked:border-blue checked:bg-blue"
                 type="checkbox"
                 @click.stop="emit('change')"
-            />
+            >
             <span
                 class="pointer-events-none absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100"
             >
@@ -23,7 +23,11 @@
                     xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink"
                 >
-                    <rect fill="url(#pattern0)" height="20" width="20" />
+                    <rect
+                        fill="url(#pattern0)"
+                        height="20"
+                        width="20"
+                    />
                     <defs>
                         <pattern
                             id="pattern0"
@@ -54,7 +58,7 @@ interface Props {
     checked: boolean
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 const emit = defineEmits<{
     (e: 'change'): void
 }>()

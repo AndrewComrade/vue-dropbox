@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 
-import LoginPage from '@/pages/LoginPage/LoginPage.vue'
-import UploadsPage from '@/pages/UploadsPage/UploadsPage.vue'
-import NotFoundPage from '@/pages/NotFoundPage/NotFoundPage.vue'
+import LoginPage from '@/resources/pages/LoginPage/LoginPage.vue'
+import UploadsPage from '@/resources/pages/UploadsPage/UploadsPage.vue'
+import NotFoundPage from '@/resources/pages/NotFoundPage/NotFoundPage.vue'
 import { useUserStore } from '@/store/user.ts'
 
 export enum RouterPaths {

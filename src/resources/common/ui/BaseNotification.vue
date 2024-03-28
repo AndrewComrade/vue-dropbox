@@ -11,7 +11,10 @@
                 >
                     <span> {{ message }}</span>
                     <div v-if="variant === 'success'">
-                        <img :src="successIcon" alt="" />
+                        <img
+                            :src="successIcon"
+                            alt=""
+                        >
                     </div>
                 </div>
             </div>
@@ -20,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import successIcon from '@/assets/success.svg'
+import successIcon from '@/assets/icons/success.svg'
 import { useNotificationStore } from '@/store/notification.ts'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
