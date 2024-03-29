@@ -12,7 +12,7 @@
             <span>{{ heading.label }}</span>
             <base-icon
                 v-show="heading.key === sortKey"
-                :class="heading.key === sortKey && sortOrder === 'desc' && 'rotate-180'"
+                :class="heading.key === sortKey && sortOrder === 'asc' && 'rotate-180'"
                 class="w-6 h-6 font-bold"
                 icon="arrow"
             />
