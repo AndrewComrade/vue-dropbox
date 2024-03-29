@@ -3,11 +3,11 @@
         <Transition name="notification">
             <div
                 v-if="isOpen"
-                class="fixed bottom-3 left-0 right-0 z-10 flex justify-center"
+                class="notification"
             >
                 <div
                     :class="classObject"
-                    class="flex min-w-[400px] items-center justify-center gap-3 rounded-[2px] border-b-[5px] px-5 py-4 text-center text-[1.5rem]"
+                    class="notification__content"
                 >
                     <span> {{ message }}</span>
                     <base-icon
@@ -47,5 +47,13 @@ const classObject = computed(() => ({
 .notification-enter-from,
 .notification-leave-to {
   opacity: 0;
+}
+
+.notification {
+  @apply fixed bottom-3 left-0 right-0 z-10 flex justify-center
+}
+
+.notification__content {
+  @apply flex min-w-[400px] items-center justify-center gap-3 rounded-[2px] border-b-[5px] px-5 py-4 text-center text-[1.5rem]
 }
 </style>

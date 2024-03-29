@@ -8,7 +8,7 @@
             :type="props.type"
             autocomplete="off"
             class="w-[33rem] rounded-5 border border-gray bg-grayLight px-[1.75rem] py-[1.175rem] text-[1.25rem]"
-        />
+        >
         <span
             v-if="!!props.error"
             class="absolute bottom-[-2rem] left-[2rem] block text-red"

@@ -8,12 +8,12 @@
                 id="custom"
                 :checked="checked"
                 :value="checked"
-                class="peer relative h-[30px] w-[30px] cursor-pointer appearance-none rounded-[5px] border-[3px] border-gray transition-all checked:border-blue checked:bg-blue"
+                class="peer checkbox"
                 type="checkbox"
                 @click.stop="emit('change')"
             >
             <base-icon
-                class="w-6 h-6 pointer-events-none absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100"
+                class="checkbox__mark peer-checked:opacity-100"
                 icon="check"
             />
         </label>
@@ -33,4 +33,12 @@ const emit = defineEmits<{
 }>()
 </script>
 
-<style scoped></style>
+<style scoped>
+.checkbox {
+  @apply relative h-[30px] w-[30px] cursor-pointer appearance-none rounded-5 border-[3px] border-gray transition-all checked:border-blue checked:bg-blue
+}
+
+.checkbox__mark {
+  @apply w-6 h-6 pointer-events-none absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 text-white opacity-0 transition-opacity
+}
+</style>

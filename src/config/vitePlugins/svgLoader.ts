@@ -8,6 +8,13 @@ import { compileTemplate } from 'vue/compiler-sfc';
 // https://github.com/jpkleemans/vite-svg-loader/blob/main/index.js
 // Был переписан потому что при ?raw не обрабатываел svgo
 
+/**
+ *
+ * @param options
+ * @param options.defaultImport
+ * @param options.svgo
+ * @param options.svgoConfig
+ */
 export default function svgLoader (
     options: {
         defaultImport?: 'url' | 'raw' | 'component'

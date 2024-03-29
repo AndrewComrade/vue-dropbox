@@ -2,7 +2,7 @@
     <button
         :class="buttonClasses"
         :type="props.type"
-        class="flex items-center justify-center rounded-7 px-[1rem] py-[0.75rem] font-medium transition-all"
+        class="button"
     >
         <slot />
     </button>
@@ -29,4 +29,8 @@ const buttonClasses = computed(() => ({
 }))
 </script>
 
-<style scoped></style>
+<style scoped>
+.button {
+  @apply flex items-center justify-center rounded-7 px-[1rem] py-[0.75rem] font-medium transition-all
+}
+</style>
