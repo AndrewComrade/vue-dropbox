@@ -26,7 +26,9 @@
                 :title="`${filename}.${fileExtension}`"
                 class="truncate"
             >{{ filename }}</span>
-            <span v-show="fileExtension">.{{ fileExtension }}</span>
+            <span
+                v-show="fileExtension"
+            >.{{ fileExtension }}</span>
         </div>
         <div class="flex items-center">
             {{ formatedEditedAt }}
@@ -46,11 +48,11 @@ import { getExtension } from '@/helpers/getExtension.ts'
 
 import BaseCheckbox from '@/resources/common/ui/BaseCheckbox.vue'
 import UploadsListItemActions from '@/resources/pages/UploadsPage/UploadsList/components/UploadsListItem/components/UploadsListItemActions.vue'
-import BaseIcon from '@/resources/common/ui/BaseIcon.vue'
 
 import { useUploadsStore } from '@/store/uploads.ts'
 import ExtensionIcon
     from '@/resources/pages/UploadsPage/UploadsList/components/UploadsListItem/components/ExtensionIcon.vue';
+import { storeToRefs } from 'pinia';
 
 interface Props {
     id: number
@@ -62,6 +64,9 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const store = useUploadsStore()
+const { withErrors } = storeToRefs(store)
 
 const {
     deleteSingleFile,
@@ -75,6 +80,7 @@ const classObject = computed(() => ({
     'hover:bg-grayLight': !props.selected,
 }))
 
+const isError = computed(() => withErrors.value.includes(props.name))
 const formatedFileSize = computed(() => humanFileSize(props.size))
 const filename = computed(() => props.name.split('.').shift())
 const fileExtension = computed(() => getExtension(props.name))

@@ -24,6 +24,7 @@ export const useUploadsStore = defineStore('uploads', () => {
     const { showHotification } = useNotificationStore()
 
     const files = ref<Upload[]>([])
+    const withErrors = ref<string[]>([])
 
     const selectedFiles = computed(() =>
         files.value.filter((file) => file.selected === true)
@@ -67,6 +68,7 @@ export const useUploadsStore = defineStore('uploads', () => {
                 message: `Не удалось удалить ${filename}`,
                 variant: 'error',
             })
+            withErrors.value.push(filename)
         }
     }
 
@@ -188,6 +190,7 @@ export const useUploadsStore = defineStore('uploads', () => {
     return {
         files,
         selectedFiles,
+        withErrors,
         isAllFilesSelected,
         fetchAllFiles,
         deleteSingleFile,
