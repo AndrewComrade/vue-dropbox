@@ -44,7 +44,7 @@ import BaseButton from '@/resources/common/ui/BaseButton.vue'
 import { useUserStore } from '@/store/user.ts'
 
 const userStore = useUserStore()
-const { loginError, passwordError } = storeToRefs(userStore)
+const { loginErrors, passwordErrors } = storeToRefs(userStore)
 const { loginUser } = userStore
 
 const validationSchema = toTypedSchema(
@@ -58,13 +58,13 @@ const { handleSubmit, errors } = useForm({
     validationSchema,
 })
 
-watch(loginError, (value) => {
+watch(loginErrors, (value) => {
     if (value.length > 0) {
         setLoginError(value[0])
     }
 })
 
-watch(passwordError, (value) => {
+watch(passwordErrors, (value) => {
     if (value.length > 0) {
         setPasswordError(value[0])
     }

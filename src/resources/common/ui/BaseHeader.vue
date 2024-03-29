@@ -3,7 +3,7 @@
         <template #default>
             <div
                 :class="
-                    user.isUserAutorized ? 'justify-between' : 'justify-center'
+                    isUserAutorized ? 'justify-between' : 'justify-center'
                 "
                 class="flex items-center py-5"
             >
@@ -14,7 +14,7 @@
                     <base-logo class="text-grayDark" />
                 </router-link>
                 <div
-                    v-if="user.isUserAutorized"
+                    v-if="isUserAutorized"
                     class="flex cursor-pointer items-center gap-2 hover:text-blue transition-all"
                     @click="logoutUser"
                 >
@@ -39,7 +39,7 @@ import BaseLogo from '@/resources/common/ui/BaseLogo.vue';
 import { useUserStore } from '@/store/user.ts'
 
 const userStore = useUserStore()
-const { user } = storeToRefs(userStore)
+const { isUserAutorized } = storeToRefs(userStore)
 const { logoutUser } = userStore
 </script>
 
