@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import { computed, reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 import { userApi } from '@/config/api/userApi.ts'
@@ -10,9 +10,6 @@ interface UserState {
     login: string
     password: string
     token: string
-    loginErrors: string[]
-    passwordErrors: string[]
-    isUserAutorized: boolean
 }
 
 interface ErrorsResponse {
@@ -27,13 +24,11 @@ export const useUserStore = defineStore('user', () => {
         login: '',
         password: '',
         token: '',
-        loginErrors: [],
-        passwordErrors: [],
-        isUserAutorized: !!localStorage.getItem('token'),
     })
 
-    const loginError = computed(() => user.loginErrors)
-    const passwordError = computed(() => user.passwordErrors)
+    const loginErrors = ref<string[]>([])
+    const passwordErrors = ref<string[]>([])
+    const isUserAutorized = ref(!!localStorage.getItem('token'))
 
     const loginUser = async ({
         login,
@@ -44,8 +39,8 @@ export const useUserStore = defineStore('user', () => {
     }) => {
         try {
             const { data: token } = await userApi.login({
-                login: login.trim(),
-                password: password.trim(),
+                login,
+                password
             })
 
             localStorage.setItem('token', token)
@@ -53,15 +48,15 @@ export const useUserStore = defineStore('user', () => {
             user.login = login
             user.password = password
             user.token = token
-            user.isUserAutorized = true
+            isUserAutorized.value = true
 
             await router.push({ path: RouterPaths.UPLOADS })
         } catch (error) {
             if (axios.isAxiosError<ErrorsResponse>(error) && error.response) {
                 const { data } = error.response
-                const { login: loginErrors, password: passwordErrors } = data
-                user.loginErrors = loginErrors
-                user.passwordErrors = passwordErrors
+                const { login, password } = data
+                loginErrors.value = login
+                passwordErrors.value = password
             }
         }
     }
@@ -70,7 +65,7 @@ export const useUserStore = defineStore('user', () => {
         user.login = ''
         user.password = ''
         user.token = ''
-        user.isUserAutorized = false
+        isUserAutorized.value = false
 
         localStorage.removeItem('token')
         await router.push({ name: RouterNames.LOGIN })
@@ -78,8 +73,9 @@ export const useUserStore = defineStore('user', () => {
 
     return {
         user,
-        loginError,
-        passwordError,
+        loginErrors,
+        passwordErrors,
+        isUserAutorized,
         loginUser,
         logoutUser,
     }
