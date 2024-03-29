@@ -1,11 +1,12 @@
 import { defineStore, storeToRefs } from 'pinia'
 import { computed, ref, watchEffect } from 'vue'
-import { uploadsApi } from '@/config/api/uploadsApi.ts'
-import { downoaldFile } from '@/helpers/downoaldFile.ts'
-import { useNotificationStore } from '@/store/notification.ts'
-import { sortByKey } from '@/helpers/sortByKey.ts';
-import { useSortStore } from '@/store/sort.ts';
 import { AxiosResponse } from 'axios';
+
+import { uploadsApi } from '@/config/api/uploadsApi.ts'
+import { useSortStore } from '@/store/sort.ts';
+import { useNotificationStore } from '@/store/notification.ts'
+import { downoaldFile } from '@/helpers/downoaldFile.ts'
+import { sortByKey } from '@/helpers/sortByKey.ts';
 
 export interface Upload {
     id: number
@@ -72,7 +73,7 @@ export const useUploadsStore = defineStore('uploads', () => {
     const deleteSelectedFiles = async () => {
         const requests: Promise<AxiosResponse>[] = []
 
-        for await (const file of selectedFiles.value) {
+        for (const file of selectedFiles.value) {
             requests.push(uploadsApi.deleteSingleFile(file.name))
         }
 

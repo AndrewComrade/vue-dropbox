@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
-import { computed, reactive } from 'vue'
-import { userApi } from '@/config/api/userApi.ts'
-import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { computed, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+
+import { userApi } from '@/config/api/userApi.ts'
 import { RouterNames, RouterPaths } from '@/config/routing/routes.ts'
 
 interface UserState {
