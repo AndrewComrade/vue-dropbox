@@ -52,7 +52,6 @@ import UploadsListItemActions from '@/resources/pages/UploadsPage/UploadsList/co
 import { useUploadsStore } from '@/store/uploads.ts'
 import ExtensionIcon
     from '@/resources/pages/UploadsPage/UploadsList/components/UploadsListItem/components/ExtensionIcon.vue';
-import { storeToRefs } from 'pinia';
 
 interface Props {
     id: number
@@ -64,9 +63,6 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-
-const store = useUploadsStore()
-const { withErrors } = storeToRefs(store)
 
 const {
     deleteSingleFile,
@@ -80,7 +76,6 @@ const classObject = computed(() => ({
     'hover:bg-grayLight': !props.selected,
 }))
 
-const isError = computed(() => withErrors.value.includes(props.name))
 const formatedFileSize = computed(() => humanFileSize(props.size))
 const filename = computed(() => props.name.split('.').shift())
 const fileExtension = computed(() => getExtension(props.name))
