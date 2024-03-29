@@ -6,7 +6,7 @@
     >
         <fieldset class="mb-[2.5rem]">
             <login-form-input
-                v-model="login"
+                v-model.trim="login"
                 :error="errors.login"
                 name="login"
                 placeholder="Введите вашу почту"
@@ -15,7 +15,7 @@
         </fieldset>
         <fieldset class="mb-[4rem]">
             <login-form-input
-                v-model="password"
+                v-model.trim="password"
                 :error="errors.password"
                 name="password"
                 placeholder="Введите ваш пароль"
